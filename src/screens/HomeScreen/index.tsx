@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, FlatList, StyleSheet, ScrollView } from 'react-native'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Product from '../../components/Product'
 import products from "../../data/products"
@@ -6,12 +6,14 @@ import products from "../../data/products"
 const HomeScreen = () => {
   const product=products[3]
   return (
-    <ScrollView style={styles.page}>
-      {
-        products.map((product) =><Product product={product} key={product.id}/>)
-      }
-      
-    </ScrollView>
+    <View style={styles.page}>
+      {/* {products.map((product) =><Product product={product} key={product.id}/>)} */}
+      <FlatList 
+        data={products}
+        renderItem={({item})=> <Product product={item}/>}
+        keyExtractor={({ id }) => id}
+      />
+    </View>
   )
 }
 

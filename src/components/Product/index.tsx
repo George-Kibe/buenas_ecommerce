@@ -14,19 +14,24 @@ interface ProductProps{
   }
 }
 
+//Continue from 1:36:01
 const Product = ({product}: ProductProps) => {
   return (
-    <View style={styles.page}>
+    <View style={styles.page} key={product.id}>
       <View style={styles.root}>
         <Image style={styles.image} source={{uri:product.image}}/>
         <View style={styles.rightContainer}>
           <Text style={styles.title} numberOfLines={3}>{product.title}</Text>
           <View style={styles.rating}>
-            <FontAwesome style={styles.star} name="star" size={20} color={"#e47911"}/>
-            <FontAwesome style={styles.star} name="star" size={20} color={"#e47911"}/>
-            <FontAwesome style={styles.star} name="star" size={20} color={"#e47911"}/>
-            <FontAwesome style={styles.star} name="star-half-full" size={20} color={"#e47911"}/>
-            <FontAwesome style={styles.star} name="star-o" size={20} color={"#e47911"}/>
+            {
+              [0,0,0,0,0].map((element, index) =>
+              <FontAwesome style={styles.star}
+                  key={`${product.id}-${index}`}
+                  name={index < Math.floor(product.avgRating) ? "star" : "star-o"}
+                  size={20}
+                  color={"#e47911"}/>
+              )
+            }
             <Text>{product.ratings}</Text>
           </View>
           <Text style={styles.price}>From Kshs. {product.price}
