@@ -1,6 +1,7 @@
 import { StatusBar as S} from 'expo-status-bar';
 import { SafeAreaView, StatusBar, useColorScheme, Text } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import HomeScreen from './src/screens/HomeScreen';
 
 export default function App() {
   const isDarkMode = useColorScheme() === "dark";
@@ -9,7 +10,7 @@ export default function App() {
   }
   return (
     <SafeAreaView >
-      <Text>Open up App.js to start working on your app!</Text>      
+      <HomeScreen />    
       <StatusBar barStyle={isDarkMode? 'light-content': "dark-content"} />
     </SafeAreaView>
   );
