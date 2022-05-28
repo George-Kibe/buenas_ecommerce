@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Product from '../../components/Product'
+import products from "../../data/products"
 
 const HomeScreen = () => {
+  const product=products[3]
   return (
-    <View style={styles.page}>
-      <Product />
-    </View>
+    <ScrollView style={styles.page}>
+      {
+        products.map((product) =><Product product={product} key={product.id}/>)
+      }
+      
+    </ScrollView>
   )
 }
 
