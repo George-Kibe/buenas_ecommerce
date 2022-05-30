@@ -11,7 +11,7 @@ const ProductScreen = () => {
   const [selectedOption, setSelectedOption] = useState(product.options ? product.options[0] : null)
   const [quantity, setQuantity] = useState(1)
   return (
-    <View>
+    <View style={styles.root}>
       <Text style={styles.title}>{product.title}</Text>
     
       <Picker
@@ -28,7 +28,11 @@ const ProductScreen = () => {
           {product.description}
       </Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity}/>
-      <Button text={"Add to Cart"} onPress={() => {console.warn("Add to cart clicked")}} />
+      <Button text={"Add to Cart"}
+        customStyles={{
+            backgroundColor:"#e3c985",
+        }}
+        onPress={() => {console.warn("Add to cart clicked")}} />
       <Button text={"Buy Now!"} onPress={() => {console.warn("Buy Now Clicked!")}} />
     </View>
   )
