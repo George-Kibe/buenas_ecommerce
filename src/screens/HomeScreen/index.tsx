@@ -12,6 +12,7 @@ const HomeScreen = () => {
         data={products}
         renderItem={({item})=> <Product product={item}/>}
         keyExtractor={({ id }) => id}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   )
