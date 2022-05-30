@@ -4,6 +4,8 @@ import styles from './styles'
 import product from "../../data/product"
 import { Picker } from '@react-native-picker/picker'
 import QuantitySelector from '../../components/QuantitySelector'
+import Button from '../../components/Button'
+
 
 const ProductScreen = () => {
   const [selectedOption, setSelectedOption] = useState(product.options ? product.options[0] : null)
@@ -26,6 +28,8 @@ const ProductScreen = () => {
           {product.description}
       </Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity}/>
+      <Button text={"Add to Cart"} onPress={() => {console.warn("Add to cart clicked")}} />
+      <Button text={"Buy Now!"} onPress={() => {console.warn("Buy Now Clicked!")}} />
     </View>
   )
 }
