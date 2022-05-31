@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native'
 
 const ImageCarousel = ({images}:{images:[string]}) => {
+  console.warn(images)
   const windowWidth = useWindowDimensions().width;
   const [activeIndex, setActiveIndex] = useState(0)
   return (

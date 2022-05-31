@@ -6,6 +6,7 @@ import { Picker } from '@react-native-picker/picker'
 import QuantitySelector from '../../components/QuantitySelector'
 import Button from '../../components/Button'
 import ImageCarousel from '../../components/ImageCarousel'
+
 //continue from 2:58:54
 
 const ProductScreen = () => {
@@ -20,7 +21,7 @@ const ProductScreen = () => {
         selectedValue={selectedOption}
         onValueChange={(itemValue) => setSelectedOption(itemValue)}>
         {product.options.map(option => (
-            <Picker.Item label={option} value={option}/>
+            <Picker.Item label={option} value={option} key={option}/>
         ))}
       </Picker>
       <Text style={styles.price}>From Kshs. {product.price}
