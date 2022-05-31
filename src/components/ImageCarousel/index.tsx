@@ -20,6 +20,13 @@ const ImageCarousel = ({images}:{images:[string]}) => {
         snapToAlignment={"center"}
         decelerationRate={"fast"}
         keyExtractor={({ image }) => image}
+        // viewabilityConfig={{
+        //   viewAreaCoveragePercentThreshold:50,
+        //   minimumViewTime:300,
+        // }}
+        // onViewableItemsChanged={({ viewableItems }) =>{
+        //   console.warn(viewableItems)
+        // }}
       />
       <View style={styles.dotsview}>
         {images.map((image, index) =>(
