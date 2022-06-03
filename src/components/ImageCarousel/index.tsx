@@ -3,7 +3,7 @@ import { View, Image, FlatList,
 import { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native'
 
-const ImageCarousel = ({images}:{images:[string]}) => {
+const ImageCarousel = ({images}:{images:string[]}) => {
   const windowWidth = useWindowDimensions().width;
   const [activeIndex, setActiveIndex] = useState(0)
   const viewabilityConfigRef={

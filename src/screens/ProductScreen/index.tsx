@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import { useState } from 'react'
 import styles from './styles'
 import product from "../../data/product"
@@ -13,7 +13,7 @@ const ProductScreen = () => {
   const [selectedOption, setSelectedOption] = useState(product.options ? product.options[0] : null)
   const [quantity, setQuantity] = useState(1)
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root}>
       <Text style={styles.title}>{product.title}</Text>
 
       <ImageCarousel images={product.images}/>
@@ -37,7 +37,7 @@ const ProductScreen = () => {
         }}
         onPress={() => {console.warn("Add to cart clicked")}} />
       <Button text={"Buy Now!"} onPress={() => {console.warn("Buy Now Clicked!")}} />
-    </View>
+    </ScrollView>
   )
 }
 
