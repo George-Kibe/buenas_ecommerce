@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Alert } from 'react-native'
+import { ScrollView, Platform, View, Text, TextInput, Alert, KeyboardAvoidingView } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
@@ -31,7 +31,7 @@ const AddressScreen = () => {
     const re=/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
     // check if the phone number is valid
     let result = phoneNumber.match(re);
-    console.warn(result)
+    //console.warn(result)
     if(result){
         return
     }else{
@@ -45,59 +45,99 @@ const AddressScreen = () => {
       }
       console.warn("Success! success")
   }
-
  
   return (
-    <View style={styles.root}>
-      <View style={styles.row}>
-          <Picker selectedValue={country} onValueChange={setCountry}
-            >
-              {
-                countries.map(country =>(
-                <Picker.Item value={country.code} label={country.name} />
-                ))
-              }              
-          </Picker>
-      </View>
-      {/* full name */}
-      <View style={styles.row}>
-        <Text style={styles.label}>Full Name (First and Last name)</Text>
-        <TextInput style={styles.input} placeholder="Full Name"
-                    value={fullname}
-                    onEndEditing={validateFullname}
-                    onChangeText={text =>{
-                        setFullname(text);
-                        setFullnameError("");
-                    }}/>
-        {!!fullnameError && <Text style={styles.errorLabel}>Validation Error: {fullnameError}</Text>}
-      </View>
-      {/* phone number */}
-      <View style={styles.row}>
-        <Text style={styles.label}>Phone Number</Text>
-        <TextInput style={styles.input} placeholder="+254..."
-                    onEndEditing={validatePhoneNumber}
-                    keyboardType={'phone-pad'}
-                    value={phoneNumber} 
-                    onChangeText={text =>{
-                        setPhoneNumber(text);
-                        setPhoneNumberError("");
-                    }}/>
-        {!!phoneNumberError && <Text style={styles.errorLabel}>Validation Error: {phoneNumberError}</Text>}
-      </View>
-      {/* Address */}
-      <View style={styles.row}>
-        <Text style={styles.label}>Address</Text>
-        <TextInput style={styles.input} placeholder="Address..."
-                    value={address} onChangeText={setAddress}/>
-      </View>
-      {/* city */}
-      <View style={styles.row}>
-        <Text style={styles.label}>City</Text>
-        <TextInput style={styles.input} placeholder="City..."
-                    value={city} onChangeText={setCity}/>
-      </View>
-      <Button text="Checkout" onPress={onCheckout} />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS ==="ios" ? "padding" : "height"}
+      keyboardVerticalOffset = {Platform.OS ==="ios" ? 10 : 0}
+      >
+      <ScrollView style={styles.root}>
+        <View style={styles.row}>
+            <Text style={styles.label}>Country</Text>
+            <Picker selectedValue={country} onValueChange={setCountry}
+                >
+                {
+                    countries.map(country =>(
+                    <Picker.Item value={country.code} label={country.name} />
+                    ))
+                }              
+            </Picker>
+        </View>
+        {/* full name */}
+        <View style={styles.row}>
+            <Text style={styles.label}>Full Name (First and Last name)</Text>
+            <TextInput style={styles.input} placeholder="Full Name"
+                        value={fullname}
+                        onEndEditing={validateFullname}
+                        onChangeText={text =>{
+                            setFullname(text);
+                            setFullnameError("");
+                        }}/>
+            {!!fullnameError && <Text style={styles.errorLabel}>Validation Error: {fullnameError}</Text>}
+        </View>
+        {/* phone number */}
+        <View style={styles.row}>
+            <Text style={styles.label}>Phone Number</Text>
+            <TextInput style={styles.input} placeholder="+254..."
+                        onEndEditing={validatePhoneNumber}
+                        keyboardType={'phone-pad'}
+                        value={phoneNumber} 
+                        onChangeText={text =>{
+                            setPhoneNumber(text);
+                            setPhoneNumberError("");
+                        }}/>
+            {!!phoneNumberError && <Text style={styles.errorLabel}>Validation Error: {phoneNumberError}</Text>}
+        </View>
+        {/* Address */}
+        <View style={styles.row}>
+            <Text style={styles.label}>Address</Text>
+            <TextInput style={styles.input} placeholder="Address..."
+                        value={address} onChangeText={setAddress}/>
+        </View>
+        {/* city */}
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <View style={styles.row}>
+            <Text style={styles.label}>City</Text>
+            <TextInput style={styles.input} placeholder="City..."
+                        value={city} onChangeText={setCity}/>
+        </View>
+        <Button text="Checkout" onPress={onCheckout} />
+      </ScrollView>
+    </KeyboardAvoidingView>    
   )
 }
 
