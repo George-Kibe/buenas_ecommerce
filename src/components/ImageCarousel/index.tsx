@@ -1,11 +1,21 @@
 import { View, Image, FlatList,
         useWindowDimensions} from 'react-native'
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native'
 
 const ImageCarousel = ({images}:{images:[string]}) => {
   const windowWidth = useWindowDimensions().width;
   const [activeIndex, setActiveIndex] = useState(0)
+  const viewabilityConfigRef={
+    viewAreaCoveragePercentThreshold:50,
+    minimumViewTime:300,
+  }
+  const onFlatListUpdate= useCallback(({ viewableItems }) =>{
+     if (viewableItems.length > 0 ){
+       setActiveIndex(viewableItems[0].index || 0)
+  }
+    console.warn(viewableItems)
+  }, [])
   return (
     <View style={styles.root}>
       <FlatList 
@@ -19,14 +29,11 @@ const ImageCarousel = ({images}:{images:[string]}) => {
         snapToInterval={windowWidth - 20}
         snapToAlignment={"center"}
         decelerationRate={"fast"}
-        keyExtractor={({ image }) => image}
-        // viewabilityConfig={{
-        //   viewAreaCoveragePercentThreshold:50,
-        //   minimumViewTime:300,
-        // }}
-        // onViewableItemsChanged={({ viewableItems }) =>{
-        //   console.warn(viewableItems)
-        // }}
+        keyExtractor = {(item, index) => index.toString()}
+        
+        viewabilityConfig={viewabilityConfigRef}
+        onViewableItemsChanged={onFlatListUpdate}
+       
       />
       <View style={styles.dotsview}>
         {images.map((image, index) =>(
