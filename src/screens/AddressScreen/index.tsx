@@ -58,7 +58,7 @@ const AddressScreen = () => {
                 >
                 {
                     countries.map(country =>(
-                    <Picker.Item value={country.code} label={country.name} />
+                    <Picker.Item key={country.code} value={country.code} label={country.name} />
                     ))
                 }              
             </Picker>
@@ -100,41 +100,7 @@ const AddressScreen = () => {
             <TextInput style={styles.input} placeholder="City..."
                         value={city} onChangeText={setCity}/>
         </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.label}>City</Text>
-            <TextInput style={styles.input} placeholder="City..."
-                        value={city} onChangeText={setCity}/>
-        </View>
+        
         <Button text="Checkout" onPress={onCheckout} />
       </ScrollView>
     </KeyboardAvoidingView>    
