@@ -14,7 +14,9 @@ const QuantitySelector = ({quantity, setQuantity}) => {
       <Pressable  style={styles.button} onPress={onMinus}>
         <Text style={styles.buttonText}>-</Text>
       </Pressable>
-      <Text style={styles.quantity}>{quantity}</Text>
+      <View style={styles.quantityView}>
+        <Text style={styles.quantity}>{quantity}</Text>
+      </View>
       <Pressable style={styles.button} onPress={onPlus}>
         <Text style={styles.buttonText}>+</Text>
       </Pressable>
@@ -41,8 +43,15 @@ const styles = StyleSheet.create({
     buttonText:{
         fontSize:18,
     },
+    quantityView:{
+      justifyContent:"center",
+      width:"50%",
+      alignItems:"center"
+    },
     quantity:{
-        color:"#007eb9"
+        color:"#007eb9",
+        fontSize:16,
+        fontWeight:"bold"
     }
 })
 
