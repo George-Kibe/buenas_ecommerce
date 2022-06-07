@@ -14,7 +14,7 @@ const ImageCarousel = ({images}:{images:string[]}) => {
      if (viewableItems.length > 0 ){
        setActiveIndex(viewableItems[0].index || 0)
   }
-    console.warn(viewableItems)
+  //console.warn(viewableItems)
   }, [])
   return (
     <View style={styles.root}>
