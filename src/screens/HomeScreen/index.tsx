@@ -3,8 +3,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Product from '../../components/Product'
 import products from "../../data/products"
 
-const HomeScreen = () => {
-  const product=products[3]
+const HomeScreen = ({searchValue}:{searchValue:string}) => {
+  //console.warn(searchValue)
   return (
     <View style={styles.page}>
       {/* {products.map((product) =><Product product={product} key={product.id}/>)} */}
