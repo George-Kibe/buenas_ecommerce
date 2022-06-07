@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-buenasecommerce-dev-165543-authRole",
+      "UnauthRoleArn": "arn:aws:iam::179792149144:role/amplify-buenasecommerce-dev-165543-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::179792149144:role/amplify-buenasecommerce-dev-165543-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-buenasecommerce-dev-165543-deployment",
+      "UnauthRoleName": "amplify-buenasecommerce-dev-165543-unauthRole",
+      "StackName": "amplify-buenasecommerce-dev-165543",
+      "StackId": "arn:aws:cloudformation:eu-west-1:179792149144:stack/amplify-buenasecommerce-dev-165543/a3faf410-e669-11ec-8322-0688d484967b",
+      "AmplifyAppId": "d2vkgd9qdt9pta"
+    }
+  }
+}
