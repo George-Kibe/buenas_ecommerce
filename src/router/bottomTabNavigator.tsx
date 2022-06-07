@@ -4,24 +4,27 @@ import ShoppingCartScreen from "../screens/ShoppingCartScreen";
 import ProductScreen from "../screens/ProductScreen";
 import AddressScreen from "../screens/AddressScreen";
 import Entypo from "react-native-vector-icons/Entypo"
+import HomeStack from "./HomeStack"
+import ShoppingCartAndAddressStack from "./ShoppingCartAndAddressStack"
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (    
     <Tab.Navigator
     screenOptions={{
-        "tabBarActiveTintColor": "#e47911",
-        "tabBarInactiveTintColor": "#ffbd7c",
+        "tabBarActiveTintColor": "#ff0000",
+        "tabBarInactiveTintColor": "#0000ff",
         "tabBarShowLabel": false,
         "tabBarStyle": [
           {
             "display": "flex"
           },
           null
-        ]
+        ],
+        headerShown: false
       }}
     >
-        <Tab.Screen component={HomeScreen} name="Home"
+        <Tab.Screen component={HomeStack} name="Home"
             options={{
                 tabBarIcon:({color}) => (
                     <Entypo name="home" color={color} size={22} />
@@ -35,14 +38,14 @@ const BottomTabNavigator = () => {
                 )
             }}
         />
-        <Tab.Screen component={ShoppingCartScreen} name="Shopping Cart"
+        <Tab.Screen component={ShoppingCartAndAddressStack} name="Shopping Cart"
             options={{
                 tabBarIcon:({color}) => (
                     <Entypo name="shopping-cart" color={color} size={22} />
                 )
             }}
         />
-        <Tab.Screen component={HomeScreen} name="Profile"
+        <Tab.Screen component={AddressScreen} name="Profile"
             options={{
                 tabBarIcon:({color}) => (
                     <Entypo name="menu" color={color} size={22} />

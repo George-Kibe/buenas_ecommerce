@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native"
 import {createStackNavigator} from "@react-navigation/stack"
 import BottomTabNavigator from "./bottomTabNavigator";
 
-
 const Root = createStackNavigator();
 const Router = () => {
   return (
