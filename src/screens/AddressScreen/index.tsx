@@ -40,7 +40,7 @@ const AddressScreen = () => {
   }
 
   const onCheckout =() =>{
-      if (fullnameError || phoneNumberError){
+      if (fullnameError || phoneNumberError || fullname.length < 2 || phoneNumber.length < 2){
           Alert.alert("Fix all field Errors before you can checkout!"); return;
       }
       console.warn("Success! success")
