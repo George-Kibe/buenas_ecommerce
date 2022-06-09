@@ -39,8 +39,8 @@ const Product = ({product}: ProductProps) => {
             }
             <Text>{product.ratings}</Text>
           </View>
-          <Text style={styles.price}>From Kshs. {product.price}
-            {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice}</Text>)}
+          <Text style={styles.price}>From Kshs. {product.price.toFixed(2)}
+            {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice.toFixed(2)}</Text>)}
           </Text>
         </View>
       </View>

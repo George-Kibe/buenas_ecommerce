@@ -29,7 +29,7 @@ amplify push
 amplify add api
 #write the models
 amplify push
-amplify console #to open aws
+amplify console #to open aws console admin panel to create test data
 
 
 

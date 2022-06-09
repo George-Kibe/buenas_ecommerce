@@ -2,6 +2,7 @@ import { View, Image, FlatList,
         useWindowDimensions} from 'react-native'
 import { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native'
+import { navItem } from 'aws-amplify';
 
 const ImageCarousel = ({images}:{images:string[]}) => {
   const windowWidth = useWindowDimensions().width;
@@ -21,7 +22,7 @@ const ImageCarousel = ({images}:{images:string[]}) => {
       <FlatList 
         data={images}
         renderItem={({item}) => (
-            <Image style={[styles.image, {width:windowWidth-40}]} 
+            <Image style={[styles.image, {width:windowWidth-40}]} key={item}
             source={{uri:item}}/>
         )}
         horizontal

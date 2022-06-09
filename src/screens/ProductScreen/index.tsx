@@ -1,8 +1,11 @@
-import { View, Text, ScrollView } from 'react-native'
-import { useState } from 'react'
+import {Text, ScrollView, ActivityIndicator } from 'react-native'
+import { useState, useEffect } from 'react'
 import styles from './styles'
 import product from "../../data/product"
 import {useRoute} from "@react-navigation/native"
+import {DataStore} from 'aws-amplify'
+import {Product } from "../../models"
+
 import { Picker } from '@react-native-picker/picker'
 import QuantitySelector from '../../components/QuantitySelector'
 import Button from '../../components/Button'
@@ -10,12 +13,27 @@ import ImageCarousel from '../../components/ImageCarousel'
 
 
 const ProductScreen = () => {
-  const [selectedOption, setSelectedOption] = useState(product.options ? product.options[0] : null)
+  const [product, setProduct] = useState<Product | undefined>(undefined)
+  const [selectedOption, setSelectedOption] = useState<String | null>(null)
   const [quantity, setQuantity] = useState(1)
 
   const route = useRoute();
-  console.warn(route.params)
-
+  //console.warn(route.params.id)
+  useEffect(() => {
+    if (!route.params?.id){
+      return
+    }
+    DataStore.query(Product, route.params.id).then(setProduct)
+  }, [route.params?.id])
+  useEffect(() => {
+    if (product?.options){
+      setSelectedOption(product.options[0])
+    }
+  }, [product])
+  
+  if (!product){
+    return <ActivityIndicator />
+  }
   return (
     <ScrollView style={styles.root}>
       <Text style={styles.title}>{product.title}</Text>
@@ -28,10 +46,10 @@ const ProductScreen = () => {
             <Picker.Item label={option} value={option} key={option}/>
         ))}
       </Picker>
-      <Text style={styles.price}>From Kshs. {product.price}
-        {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice}</Text>)}
+      <Text style={styles.price}>From Kshs. {product.price.toFixed(2)}
+        {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice.toFixed(2)}</Text>)}
       </Text>
-      <Text style={styles.description}>
+      <Text style={styles.description} numberOfLines={10}> 
           {product.description}
       </Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity}/>
