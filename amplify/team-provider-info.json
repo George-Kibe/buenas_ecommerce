@@ -10,6 +10,11 @@
       "StackName": "amplify-buenasecommerce-dev-165543",
       "StackId": "arn:aws:cloudformation:eu-west-1:179792149144:stack/amplify-buenasecommerce-dev-165543/a3faf410-e669-11ec-8322-0688d484967b",
       "AmplifyAppId": "d2vkgd9qdt9pta"
+    },
+    "categories": {
+      "auth": {
+        "buenasecommerce0e95b972": {}
+      }
     }
   }
 }
