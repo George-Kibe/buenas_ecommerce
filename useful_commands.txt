@@ -25,3 +25,11 @@ amplify add auth
 amplify push
 
 
+##Adding API
+amplify add api
+#write the models
+amplify push
+amplify console #to open aws
+
+
+

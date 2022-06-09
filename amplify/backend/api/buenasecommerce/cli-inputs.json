@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "buenasecommerce",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "E:\\MobileDeveleopment\\ReactNative\\buenas_ecommerce\\amplify\\backend\\api\\buenasecommerce\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2023-06-09T13:35:14.979Z",
+      "keyDescription": "api key buenasecommerce"
+    },
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
+    }
+  }
+}

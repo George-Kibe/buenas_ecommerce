@@ -1,0 +1,45 @@
+type Product @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  title: String!
+  description: String
+  image: String!
+  images: [String!]!
+  options: [String!]
+
+  avgRating: Float
+  ratings: Int
+
+  price: Float!
+  oldPrice: Float
+}
+
+type CartProduct @model @auth(rules: [{ allow: public }]) {
+  id: ID
+  quantity: Int!
+  option: String
+  userSub: String!
+
+  #productID: ID
+  product: Product @hasOne
+}
+
+#type Order @model {}
+
+#type Blog @model {
+#  id: ID!
+#  name: String!
+#  posts: [Post] @hasMany
+#}
+
+#type Post @model {
+#  id: ID!
+#  title: String!
+#  blog: Blog @belongsTo
+#  comments: [Comment] @hasMany
+#}
+
+#type Comment @model {
+#  id: ID!
+#  post: Post @belongsTo
+#  content: String!
+#}

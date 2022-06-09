@@ -1,7 +1,9 @@
-import { View, FlatList, StyleSheet, ScrollView } from 'react-native'
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import Product from '../../components/Product'
+import { View, FlatList, StyleSheet } from 'react-native'
+import {useState} from 'react'
+import Product from '../../components/Product' 
 import products from "../../data/products"
+import {Datastore} from 'aws-amplify'
+import {Product as ProductModel } from "../../models"
 
 const HomeScreen = ({searchValue}:{searchValue:string}) => {
   //console.warn(searchValue)
