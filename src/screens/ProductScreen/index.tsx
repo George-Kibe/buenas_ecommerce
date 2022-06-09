@@ -1,10 +1,10 @@
 import {Text, ScrollView, ActivityIndicator } from 'react-native'
 import { useState, useEffect } from 'react'
 import styles from './styles'
-import product from "../../data/product"
+import { useNavigation } from '@react-navigation/native'
 import {useRoute} from "@react-navigation/native"
-import {DataStore} from 'aws-amplify'
-import {Product } from "../../models"
+import {DataStore, Auth} from 'aws-amplify'
+import {Product, CartProduct } from "../../models"
 
 import { Picker } from '@react-native-picker/picker'
 import QuantitySelector from '../../components/QuantitySelector'
@@ -14,9 +14,10 @@ import ImageCarousel from '../../components/ImageCarousel'
 
 const ProductScreen = () => {
   const [product, setProduct] = useState<Product | undefined>(undefined)
-  const [selectedOption, setSelectedOption] = useState<String | null>(null)
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined)
   const [quantity, setQuantity] = useState(1)
 
+  const navigation=useNavigation();
   const route = useRoute();
   //console.warn(route.params.id)
   useEffect(() => {
@@ -30,6 +31,22 @@ const ProductScreen = () => {
       setSelectedOption(product.options[0])
     }
   }, [product])
+  
+  const onAddToCart = async () =>{
+    const userData = await Auth.currentAuthenticatedUser()
+    //console.warn(userData.attributes.sub)
+    if (!product || !userData){
+      return;
+    }
+    const newCartProduct = new CartProduct({
+      userSub:userData.attributes.sub,
+      quantity,
+      option:selectedOption,
+      product:product,
+    });
+    await DataStore.save(newCartProduct);
+    navigation.navigate("Shopping Cart")
+  }
   
   if (!product){
     return <ActivityIndicator />
@@ -54,10 +71,11 @@ const ProductScreen = () => {
       </Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity}/>
       <Button text={"Add to Cart"}
+        onPress={onAddToCart}
         customStyles={{
             backgroundColor:"#e3c985",
         }}
-        onPress={() => {console.warn("Add to cart clicked")}} />
+      />
       <Button text={"Buy Now!"} onPress={() => {console.warn("Buy Now Clicked!")}} />
     </ScrollView>
   )
