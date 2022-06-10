@@ -4,27 +4,22 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import QuantitySelector from '../QuantitySelector'
 import styles from './styles'
 
+import {DataStore} from "aws-amplify"
+import {CartProduct} from "../../models"
 interface CartProductItemProps{
-  cartItem:{
-    id:string;
-    quantity:number;
-    option?: string;
-    product:{
-      id:string;
-      title:string;
-      image:string;
-      avgRating:number;
-      ratings:number;
-      price:number;
-      oldPrice?:number;
-    }
-  }
+  cartItem:CartProduct;
 }
 
 const CartProductItem = ({cartItem}: CartProductItemProps) => {
-  const {quantity:quantityProp, product} = cartItem;
+  const {quantity, product} = cartItem;
   //console.warn(cartItem)
-  const [quantity, setQuantity] = useState(quantityProp)
+  const updateQuantity = async (newQuantity:number) =>{
+    await DataStore.save(
+      CartProduct.copyOf(cartItem, updated =>{
+        updated.quantity = newQuantity;
+      })
+    )
+  }
   
   return (
     <View style={styles.page} key={product.id}>
@@ -48,7 +43,7 @@ const CartProductItem = ({cartItem}: CartProductItemProps) => {
             {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice.toFixed(2)}</Text>)}
           </Text>
           <View style={styles.quantityContainer}>
-           <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+           <QuantitySelector quantity={quantity} setQuantity={updateQuantity} />
           </View>
         </View>        
       </View>      

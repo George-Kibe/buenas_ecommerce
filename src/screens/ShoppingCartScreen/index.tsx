@@ -13,15 +13,17 @@ const ShoppingCartScreen = () => {
   const navigation = useNavigation()
   useEffect(() => {
     const fetchProducts = async () =>{
-      DataStore.query(CartProduct).then(setCartProducts)
+      const userData = await Auth.currentAuthenticatedUser();
+      const userSub = userData.attributes.sub
+      DataStore.query(CartProduct, cp => cp.userSub("eq", userSub)).then(setCartProducts)
     }
     fetchProducts();
   }, [cartProducts, cartProducts.length])
   
 
   const totalPrice = cartProducts.reduce(
-    (summedPrice, product) =>
-      summedPrice + product.product.price * product.quantity, 0,
+    (summedPrice, cartproduct) =>
+      summedPrice + cartproduct.product.price * cartproduct.quantity, 0,
   );
   
   const proceedToCheckout = () =>{

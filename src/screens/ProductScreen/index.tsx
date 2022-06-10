@@ -1,4 +1,4 @@
-import {Text, ScrollView, ActivityIndicator } from 'react-native'
+import {View, Text, ScrollView, ActivityIndicator } from 'react-native'
 import { useState, useEffect } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
@@ -19,7 +19,7 @@ const ProductScreen = () => {
 
   const navigation=useNavigation();
   const route = useRoute();
-  //console.warn(route.params.id)
+  //console.warn(route.params)
   useEffect(() => {
     if (!route.params?.id){
       return
@@ -49,7 +49,14 @@ const ProductScreen = () => {
   }
   
   if (!product){
-    return <ActivityIndicator />
+    return <View style={{justifyContent:"center", alignItems:"center", height:"100%"}}>
+      <View>
+      <ActivityIndicator size="large" color="#ff0000"/>
+      </View>
+      <View style={{marginTop:20}}>
+        <Text style={{fontSize:20}}>Loading...</Text>
+      </View>
+    </View>
   }
   return (
     <ScrollView style={styles.root}>
