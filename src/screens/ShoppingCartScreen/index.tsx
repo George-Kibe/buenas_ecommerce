@@ -1,17 +1,27 @@
+import { useState, useEffect } from 'react'
 import { View,Text, FlatList, StyleSheet, ScrollView } from 'react-native'
 import CartProductItem from "../../components/CartProductItem"
 import { useNavigation } from "@react-navigation/native"
 
+import { DataStore, Auth } from 'aws-amplify'
+import { Product, CartProduct } from '../../models'
 import Button from '../../components/Button'
-import products from "../../data/cart"
-
 
 const ShoppingCartScreen = () => {
-  const navigation = useNavigation()
+  const [cartProducts, setCartProducts] = useState<CartProduct[]>([])
 
-  const totalPrice = products.reduce(
+  const navigation = useNavigation()
+  useEffect(() => {
+    const fetchProducts = async () =>{
+      DataStore.query(CartProduct).then(setCartProducts)
+    }
+    fetchProducts();
+  }, [cartProducts, cartProducts.length])
+  
+
+  const totalPrice = cartProducts.reduce(
     (summedPrice, product) =>
-      summedPrice + product.item.price * product.quantity, 0,
+      summedPrice + product.product.price * product.quantity, 0,
   );
   
   const proceedToCheckout = () =>{
@@ -22,7 +32,7 @@ const ShoppingCartScreen = () => {
     <View style={styles.page}>
       <View>
         <Text style={{fontSize:18, fontWeight:"bold"}}>
-            Subtotal ({products.length} items): 
+            Subtotal ({cartProducts.length} items): 
             <Text style={{color:"#0000ff"}}> Kshs.{totalPrice.toFixed(2)}</Text>
         </Text>
         <Button text='Proceed to Checkout' 
@@ -30,7 +40,8 @@ const ShoppingCartScreen = () => {
             customStyles={{backgroundColor:"#ffff00", borderColor:"#c7b702"}}/>
       </View>
       <FlatList 
-        data={products}
+        style={{marginBottom:40}}
+        data={cartProducts}
         renderItem={({item}) => <CartProductItem cartItem={item}/>}
         keyExtractor={({ id }) => id}
         showsVerticalScrollIndicator={false}
@@ -42,6 +53,7 @@ const ShoppingCartScreen = () => {
 const styles = StyleSheet.create({
   page:{
     padding:10,
+    margin:10
   },
 })
 export default ShoppingCartScreen

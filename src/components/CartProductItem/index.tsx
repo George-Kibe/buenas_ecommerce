@@ -9,7 +9,7 @@ interface CartProductItemProps{
     id:string;
     quantity:number;
     option?: string;
-    item:{
+    product:{
       id:string;
       title:string;
       image:string;
@@ -22,7 +22,7 @@ interface CartProductItemProps{
 }
 
 const CartProductItem = ({cartItem}: CartProductItemProps) => {
-  const {quantity:quantityProp, item:product} = cartItem;
+  const {quantity:quantityProp, product} = cartItem;
   //console.warn(cartItem)
   const [quantity, setQuantity] = useState(quantityProp)
   
@@ -44,8 +44,8 @@ const CartProductItem = ({cartItem}: CartProductItemProps) => {
             }
             <Text>{product.ratings}</Text>
           </View>
-          <Text style={styles.price}>From Kshs. {product.price}
-            {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice}</Text>)}
+          <Text style={styles.price}>From Kshs. {product.price.toFixed(2)}
+            {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice.toFixed(2)}</Text>)}
           </Text>
           <View style={styles.quantityContainer}>
            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
