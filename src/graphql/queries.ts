@@ -208,3 +208,270 @@ export const syncCartProducts = /* GraphQL */ `
     }
   }
 `;
+export const getOrderProduct = /* GraphQL */ `
+  query GetOrderProduct($id: ID!) {
+    getOrderProduct(id: $id) {
+      id
+      quantity
+      option
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      order {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      orderOrderProductId
+      orderProductProductId
+    }
+  }
+`;
+export const listOrderProducts = /* GraphQL */ `
+  query ListOrderProducts(
+    $filter: ModelOrderProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrderProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        quantity
+        option
+        product {
+          id
+          title
+          description
+          image
+          images
+          options
+          avgRating
+          ratings
+          price
+          oldPrice
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        order {
+          id
+          userSub
+          fullname
+          phoneNumber
+          country
+          city
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        orderOrderProductId
+        orderProductProductId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncOrderProducts = /* GraphQL */ `
+  query SyncOrderProducts(
+    $filter: ModelOrderProductFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncOrderProducts(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        quantity
+        option
+        product {
+          id
+          title
+          description
+          image
+          images
+          options
+          avgRating
+          ratings
+          price
+          oldPrice
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        order {
+          id
+          userSub
+          fullname
+          phoneNumber
+          country
+          city
+          address
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        orderOrderProductId
+        orderProductProductId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getOrder = /* GraphQL */ `
+  query GetOrder($id: ID!) {
+    getOrder(id: $id) {
+      id
+      userSub
+      orderProduct {
+        items {
+          id
+          quantity
+          option
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          orderOrderProductId
+          orderProductProductId
+        }
+        nextToken
+        startedAt
+      }
+      fullname
+      phoneNumber
+      country
+      city
+      address
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listOrders = /* GraphQL */ `
+  query ListOrders(
+    $filter: ModelOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncOrders = /* GraphQL */ `
+  query SyncOrders(
+    $filter: ModelOrderFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncOrders(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;

@@ -164,3 +164,258 @@ export const onDeleteCartProduct = /* GraphQL */ `
     }
   }
 `;
+export const onCreateOrderProduct = /* GraphQL */ `
+  subscription OnCreateOrderProduct {
+    onCreateOrderProduct {
+      id
+      quantity
+      option
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      order {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      orderOrderProductId
+      orderProductProductId
+    }
+  }
+`;
+export const onUpdateOrderProduct = /* GraphQL */ `
+  subscription OnUpdateOrderProduct {
+    onUpdateOrderProduct {
+      id
+      quantity
+      option
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      order {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      orderOrderProductId
+      orderProductProductId
+    }
+  }
+`;
+export const onDeleteOrderProduct = /* GraphQL */ `
+  subscription OnDeleteOrderProduct {
+    onDeleteOrderProduct {
+      id
+      quantity
+      option
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      order {
+        id
+        userSub
+        orderProduct {
+          nextToken
+          startedAt
+        }
+        fullname
+        phoneNumber
+        country
+        city
+        address
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      orderOrderProductId
+      orderProductProductId
+    }
+  }
+`;
+export const onCreateOrder = /* GraphQL */ `
+  subscription OnCreateOrder {
+    onCreateOrder {
+      id
+      userSub
+      orderProduct {
+        items {
+          id
+          quantity
+          option
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          orderOrderProductId
+          orderProductProductId
+        }
+        nextToken
+        startedAt
+      }
+      fullname
+      phoneNumber
+      country
+      city
+      address
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateOrder = /* GraphQL */ `
+  subscription OnUpdateOrder {
+    onUpdateOrder {
+      id
+      userSub
+      orderProduct {
+        items {
+          id
+          quantity
+          option
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          orderOrderProductId
+          orderProductProductId
+        }
+        nextToken
+        startedAt
+      }
+      fullname
+      phoneNumber
+      country
+      city
+      address
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteOrder = /* GraphQL */ `
+  subscription OnDeleteOrder {
+    onDeleteOrder {
+      id
+      userSub
+      orderProduct {
+        items {
+          id
+          quantity
+          option
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          orderOrderProductId
+          orderProductProductId
+        }
+        nextToken
+        startedAt
+      }
+      fullname
+      phoneNumber
+      country
+      city
+      address
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;

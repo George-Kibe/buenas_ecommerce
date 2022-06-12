@@ -23,7 +23,25 @@ type CartProduct @model @auth(rules: [{ allow: public }]) {
   product: Product @hasOne
 }
 
-#type Order @model {}
+type OrderProduct @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  quantity: Int!
+  option: String
+  product: Product @hasOne
+  order: Order @belongsTo
+}
+
+type Order @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userSub: String!
+  orderProduct: [OrderProduct] @hasMany
+
+  fullname: String!
+  phoneNumber: String
+  country: String
+  city: String
+  address: String
+}
 
 #type Blog @model {
 #  id: ID!
