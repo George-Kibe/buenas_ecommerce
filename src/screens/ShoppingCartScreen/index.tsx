@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { View,Text, FlatList, StyleSheet, ScrollView } from 'react-native'
+import { View,Text, FlatList, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import CartProductItem from "../../components/CartProductItem"
 import { useNavigation } from "@react-navigation/native"
 
@@ -28,6 +28,17 @@ const ShoppingCartScreen = () => {
   
   const proceedToCheckout = () =>{
     navigation.navigate("Shipping Address")
+  }
+  if (cartProducts.length < 1){
+    return <View style={{justifyContent:"center", alignItems:"center", height:"100%"}}>
+      <View>
+      <ActivityIndicator size="large" color="#ff0000"/>
+      </View>
+      <View style={{marginTop:20, justifyContent:"center", alignItems:"center",}}>
+        <Text style={{fontSize:20}}>Loading...</Text>
+        <Text style={{fontSize:20, marginTop:30, maxWidth:"80%"}}>Please Ensure You have added at least one Item to the cart...</Text>
+      </View>
+    </View>
   }
 
   return (

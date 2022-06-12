@@ -3,10 +3,14 @@ import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
 import { useState } from 'react'
+import { DataStore, Auth } from 'aws-amplify'
+import { Order, OrderProduct, CartProduct } from '../../models'
+import { useNavigation } from '@react-navigation/native'
 
 import styles from './styles'
 
 const AddressScreen = () => {
+  const navigation = useNavigation()
   const countries = countryList.getData();
   const [country, setCountry] = useState(countries[0].name);
   const [fullname, setFullname] = useState("")
@@ -38,11 +42,44 @@ const AddressScreen = () => {
         setPhoneNumberError("Phone Number is Invalid or not Allowed")
     }
   }
+  const saveOrder = async () =>{
+    const userData = await Auth.currentAuthenticatedUser();
+    const userSub = userData.attributes.sub
+    //create a new order
+    const newOrder = await DataStore.save(
+        new Order({
+            userSub:userSub,
+            //orderProduct:orderproducts,
+            fullname:fullname,
+            phoneNumber:phoneNumber,
+            country:country,
+            city:city,
+            address:address,
+        })
+    )
+    //fecth all cart items
+    const cartItems = await DataStore.query(CartProduct, cp =>
+        cp.userSub("eq", userSub)   
+        )
+    console.log(cartItems)
+    //attach cart items to order
+    await Promise.all(
+        cartItems.map(cartItem => DataStore.save(new OrderProduct({
+            quantity: cartItem.quantity,
+            option: cartItem.option,
+            product: cartItem.product,
+            order: newOrder,
+        })))
+    )
+    await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+    navigation.navigate("Home")
+  }
 
   const onCheckout =() =>{
       if (fullnameError || phoneNumberError || fullname.length < 2 || phoneNumber.length < 2){
           Alert.alert("Fix all field Errors before you can checkout!"); return;
       }
+      saveOrder();
       console.warn("Success! success")
   }
  
