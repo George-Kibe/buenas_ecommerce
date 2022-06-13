@@ -17,16 +17,23 @@ const ShoppingCartScreen = () => {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
   const navigation = useNavigation()
+
+  const fetchProducts = async () => {
+    const userData = await Auth.currentAuthenticatedUser();
+    const userSub = userData.attributes.sub;
+    DataStore.query(CartProduct, cp => cp.userSub('eq', userSub)).then(
+      setCartProducts,
+    );
+  };
   useEffect(() => {
-    const fetchProducts = async () => {
-      const userData = await Auth.currentAuthenticatedUser();
-      const userSub = userData.attributes.sub;
-      DataStore.query(CartProduct, cp => cp.userSub('eq', userSub)).then(
-        setCartProducts,
-      );
-    };
     fetchProducts();
   }, [cartProducts, cartProducts.length]);
+
+  useEffect(() => {
+    const subscription = DataStore.observe(CartProduct).subscribe(msg => fetchProducts(),);
+    return subscription.unsubscribe;
+  }, [])
+  
 
   const totalPrice = cartProducts.reduce(
     (summedPrice, cartproduct) =>
