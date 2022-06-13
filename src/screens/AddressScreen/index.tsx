@@ -2,16 +2,19 @@ import { ScrollView, Platform, View, Text, TextInput, Alert, KeyboardAvoidingVie
 import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
-import React,{ useState } from 'react'
-import { DataStore, Auth } from 'aws-amplify'
+import React,{ useState, useEffect } from 'react'
+import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
 import { Order, OrderProduct, CartProduct } from '../../models'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import {createPaymentIntent} from '../../graphql/mutations'
 
 import styles from './styles'
 
 const AddressScreen = () => {
   const navigation = useNavigation()
+  const route = useRoute()
   const countries = countryList.getData();
+
   const [country, setCountry] = useState(countries[0].name);
   const [fullname, setFullname] = useState("")
   const [fullnameError, setFullnameError] = useState("")
@@ -21,6 +24,22 @@ const AddressScreen = () => {
 
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
+
+  const amount = Math.floor(route.params?.totalPrice*100 || 0);
+
+  useEffect(() => {
+   initPaymentSheet();
+  }, [])
+  
+  const fetchPaymentIntent = async () =>{
+    const response = await API.graphql(
+        graphqlOperation(createPaymentIntent, {amount})
+    )
+    console.log(response);
+  } 
+  const initPaymentSheet = async () =>{
+    fetchPaymentIntent();
+  }
 
   const validateFullname =() =>{
     if(!fullname){
@@ -61,7 +80,7 @@ const AddressScreen = () => {
     const cartItems = await DataStore.query(CartProduct, cp =>
         cp.userSub("eq", userSub)   
         )
-    console.log(cartItems)
+    //console.log(cartItems)
     //attach cart items to order
     await Promise.all(
         cartItems.map(cartItem => DataStore.save(new OrderProduct({
@@ -72,6 +91,7 @@ const AddressScreen = () => {
         })))
     )
     await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+    
     navigation.navigate("Home")
   }
 
@@ -80,7 +100,7 @@ const AddressScreen = () => {
           Alert.alert("Fix all field Errors before you can checkout!"); return;
       }
       saveOrder();
-      console.warn("Success! success")
+      //console.warn("Success! success")
   }
  
   return (

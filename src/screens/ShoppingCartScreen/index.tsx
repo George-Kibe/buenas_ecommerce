@@ -42,7 +42,7 @@ const ShoppingCartScreen = () => {
   );
 
   const proceedToCheckout = () => {
-    navigation.navigate('Shipping Address');
+    navigation.navigate('Shipping Address', {totalPrice});
   };
   if (cartProducts.length < 1) {
     return (

@@ -2,7 +2,7 @@ import { View, Image, FlatList,
         useWindowDimensions} from 'react-native'
 import React, { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native'
-import { navItem } from 'aws-amplify';
+
 
 const ImageCarousel = ({images}:{images:string[]}) => {
   const windowWidth = useWindowDimensions().width;

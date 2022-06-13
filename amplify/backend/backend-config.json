@@ -42,5 +42,12 @@
         ]
       }
     }
+  },
+  "function": {
+    "StripeCreatePaymentIntent": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
   }
 }

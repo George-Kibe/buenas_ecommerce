@@ -32,4 +32,8 @@ amplify push
 amplify console #to open aws console admin panel to create test data
 
 
-
+### STRIPE INTEGRATION FOR PAYMENTS
+npm install @stripe/stripe-react-native
+amplify add function # to add a lambda function
+Write the lambda function# Node js
+amplify mock #test things locally
