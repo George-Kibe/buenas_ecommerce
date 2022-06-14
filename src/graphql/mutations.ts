@@ -2,9 +2,9 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPaymentIntent = /* GraphQL */ `
-  mutation CreatePaymentIntent($amount: Int!) {
-    createPaymentIntent(amount: $amount) {
+export const stripeCreatePaymentIntent = /* GraphQL */ `
+  mutation StripeCreatePaymentIntent($amount: Int!) {
+    StripeCreatePaymentIntent(amount: $amount) {
       clientSecret
     }
   }

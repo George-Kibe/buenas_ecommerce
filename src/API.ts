@@ -386,12 +386,12 @@ export type ModelOrderConnection = {
   startedAt?: number | null,
 };
 
-export type CreatePaymentIntentMutationVariables = {
+export type StripeCreatePaymentIntentMutationVariables = {
   amount: number,
 };
 
-export type CreatePaymentIntentMutation = {
-  createPaymentIntent:  {
+export type StripeCreatePaymentIntentMutation = {
+  StripeCreatePaymentIntent:  {
     __typename: "PaymentIntent",
     clientSecret: string,
   },

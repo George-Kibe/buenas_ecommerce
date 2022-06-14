@@ -1,5 +1,5 @@
 type Mutation {
-  createPaymentIntent(amount: Int!): PaymentIntent!
+  StripeCreatePaymentIntent(amount: Int!): PaymentIntent!
     @function(name: "StripeCreatePaymentIntent-${env}")
 }
 

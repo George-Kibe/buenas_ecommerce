@@ -1,11 +1,8 @@
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
 const stripe = require('stripe')(
   'sk_test_51K7g1nEkdIEftzMHKtN6WuUHQTbncl77hk5FlkqysTpbXbuQOOSOORymb3eBD9FzSkWYDVTiDmiZAPOL7Gfj5OhI00yA9vO2Iw',
 );
 
-exports.handler = async event => {
+exports.handler = async (event) => {
   const {typeName, arguments} = event;
 
   if (typeName !== 'Mutation') {
@@ -20,6 +17,6 @@ exports.handler = async event => {
     currency: 'usd',
   });
   return {
-    clientSecret: paymentIntent.clientSecret,
+    clientSecret: paymentIntent.client_secret,
   };
 };

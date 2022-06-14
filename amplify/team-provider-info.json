@@ -18,7 +18,7 @@
       "function": {
         "StripeCreatePaymentIntent": {
           "deploymentBucketName": "amplify-ecommerce-dev-95313-deployment",
-          "s3Key": "amplify-builds/StripeCreatePaymentIntent-2f4e4a50706b4b414a61-build.zip"
+          "s3Key": "amplify-builds/StripeCreatePaymentIntent-31786151766d73344230-build.zip"
         }
       }
     }

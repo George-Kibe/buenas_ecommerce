@@ -2,11 +2,12 @@ import { ScrollView, Platform, View, Text, TextInput, Alert, KeyboardAvoidingVie
 import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect, useRef } from 'react'
 import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
+import { useStripe } from '@stripe/stripe-react-native'
 import { Order, OrderProduct, CartProduct } from '../../models'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import {createPaymentIntent} from '../../graphql/mutations'
+import {stripeCreatePaymentIntent} from '../../graphql/mutations'
 
 import styles from './styles'
 
@@ -14,7 +15,9 @@ const AddressScreen = () => {
   const navigation = useNavigation()
   const route = useRoute()
   const countries = countryList.getData();
-
+  const buttonRef = useRef()
+  const {initPaymentSheet, presentPaymentSheet} = useStripe()
+  
   const [country, setCountry] = useState(countries[0].name);
   const [fullname, setFullname] = useState("")
   const [fullnameError, setFullnameError] = useState("")
@@ -24,23 +27,57 @@ const AddressScreen = () => {
 
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
 
   const amount = Math.floor(route.params?.totalPrice*100 || 0);
 
   useEffect(() => {
-   initPaymentSheet();
+   fetchPaymentIntent();
   }, [])
+
+  useEffect(() => {
+    if(clientSecret){
+        initializePaymentSheet();
+        //Alert.alert("Payment Intention initialized!")
+    }
+  }, [clientSecret])
+  
   
   const fetchPaymentIntent = async () =>{
     const response = await API.graphql(
-        graphqlOperation(createPaymentIntent, {amount})
+        graphqlOperation(stripeCreatePaymentIntent, {amount})
     )
-    console.log(response);
+    setClientSecret(response.data.StripeCreatePaymentIntent.clientSecret);
   } 
-  const initPaymentSheet = async () =>{
-    fetchPaymentIntent();
+  const initializePaymentSheet = async () =>{
+    if (!clientSecret){
+        return;
+    }
+    const {error} = await initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+    })
+    if (error){
+        Alert.alert(error);
+    }
+    //console.warn("success!")
   }
 
+  const openPaymentSheet = async () =>{
+    if (!clientSecret){
+        return
+    }
+    console.warn(clientSecret)
+    const {error} = await presentPaymentSheet({clientSecret});
+    if (error){
+        Alert.alert(`Error Code: ${error.code}`, error.message)
+    }else{
+        saveOrder()
+        Alert.alert("Success", "Your order is now confirmed")
+        console.warn("Success!")
+    }
+  }
+
+  //validations
   const validateFullname =() =>{
     if(!fullname){
         Alert.alert("Please fill in the Fullname Field"); return;
@@ -95,14 +132,18 @@ const AddressScreen = () => {
     navigation.navigate("Home")
   }
 
-  const onCheckout =() =>{
-      if (fullnameError || phoneNumberError || fullname.length < 2 || phoneNumber.length < 2){
-          Alert.alert("Fix all field Errors before you can checkout!"); return;
-      }
-      saveOrder();
-      //console.warn("Success! success")
+  const onCheckout = async () =>{
+    //buttonRef.current.disabled = true;
+    if (fullnameError || phoneNumberError || fullname.length < 2 || phoneNumber.length < 2){
+        Alert.alert("Fix all field Errors before you can checkout!"); return;
+    }
+    //handle payments  and save order    
+    await openPaymentSheet();
+    // buttonRef.current.disabled = false;
   }
- 
+const testPress = () =>{
+    Alert.alert("Its Working!")
+}
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS ==="ios" ? "padding" : "height"}
@@ -159,6 +200,7 @@ const AddressScreen = () => {
         </View>
         
         <Button text="Checkout" onPress={onCheckout} />
+        <Button text="Checkout" onPress={testPress} />
       </ScrollView>
     </KeyboardAvoidingView>    
   )
