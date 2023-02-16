@@ -3,7 +3,11 @@ import React from 'react'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { StyleSheet } from 'react-native'
 
-const QuantitySelector = ({quantity, setQuantity}) => {
+interface QuantityProps {
+  quantity: number;
+  setQuantity: (quantity: number) => void;
+}
+const QuantitySelector = ({quantity, setQuantity}: QuantityProps) => {
   const onMinus = () =>{
     setQuantity(Math.max(0, quantity - 1))
   }

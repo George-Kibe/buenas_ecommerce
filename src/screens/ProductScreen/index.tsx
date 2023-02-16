@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import product from "../../assets/data/product"
+import ImageCarousel from '../../components/ImageCarousel'
 import QuantitySelector from '../../components/QuantitySelector'
+import Button from '../../components/Button'
 
 import styles from './styles'
 const ProductScreen = () => {
@@ -10,7 +12,7 @@ const ProductScreen = () => {
   const [quantity, setQuantity] = useState(1)
   //console.warn(selectedOption)
   return (
-    <View>
+    <ScrollView style={styles.root}>
       <Text style={styles.title}>ProductScreen</Text>
 
 
@@ -23,6 +25,7 @@ const ProductScreen = () => {
         }
     
       </Picker>
+      <ImageCarousel images={product.images}/>
 
       <Text style={styles.price}>
         From Kshs {product.price}
@@ -30,7 +33,11 @@ const ProductScreen = () => {
       </Text>
       <Text style={styles.description}>{product.description}</Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
-    </View>
+      <Button text={"Add to Cart"} onPress={() =>console.warn("Add to cart")} 
+        customStyles={{backgroundColor:"#e3c905"}}
+      />
+      <Button text={"Buy Now"} onPress={() =>console.warn("Buy Now")} />
+    </ScrollView>
   )
 }
 
