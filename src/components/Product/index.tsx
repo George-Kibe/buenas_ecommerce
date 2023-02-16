@@ -16,8 +16,11 @@ interface ProductItemProps{
 }
 const Product = ({product}:ProductItemProps) => {
   //console.log(product)
+  const productPressed = () =>{
+    console.warn("Prodcut pressed")
+  }
   return (
-    <TouchableOpacity style={styles.root}>
+    <TouchableOpacity onPress={productPressed} style={styles.root}>
         <Image style={styles.image} source={{ uri:product.image}}/>
     
         <View style={styles.rightContainer}>
