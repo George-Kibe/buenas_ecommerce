@@ -5,7 +5,7 @@ import ProductScreen from './src/screens/ProductScreen';
 import ShoppingCartScreen from './src/screens/ShoppingCartScreen';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+//continue from 52:04
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 

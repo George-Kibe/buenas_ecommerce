@@ -4,22 +4,24 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import QuantitySelector from '../QuantitySelector'
 import styles from './styles'
 
-import {DataStore} from "aws-amplify"
-import {CartProduct} from "../../models"
-interface CartProductItemProps{
-  cartItem:CartProduct;
-}
+// import {DataStore} from "aws-amplify"
+// import {CartProduct} from "../../models"
+// interface CartProductItemProps{
+//   cartItem:CartProduct;
+// }
 
-const CartProductItem = ({cartItem}: CartProductItemProps) => {
+const CartProduct = ({cartItem}: any) => {
+  console.log(cartItem)
   const {quantity, product} = cartItem;
   //console.warn(cartItem)
-  const updateQuantity = async (newQuantity:number) =>{
-    await DataStore.save(
-      CartProduct.copyOf(cartItem, updated =>{
-        updated.quantity = newQuantity;
-      })
-    )
-  }
+  const updateQuantity = () =>{}
+  // const updateQuantity = async (newQuantity:number) =>{
+  //   await DataStore.save(
+  //     CartProduct.copyOf(cartItem, updated =>{
+  //       updated.quantity = newQuantity;
+  //     })
+  //   )
+  // }
   
   return (
     <View style={styles.page} key={product.id}>
@@ -51,4 +53,4 @@ const CartProductItem = ({cartItem}: CartProductItemProps) => {
   )
 }
 
-export default CartProductItem
+export default CartProduct;
