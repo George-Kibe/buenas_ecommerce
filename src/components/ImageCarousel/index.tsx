@@ -1,7 +1,6 @@
 import { View, Image, FlatList, ScrollView, useWindowDimensions} from 'react-native'
 import React, { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native'
-//continue from 2:43
 
 const ImageCarousel = ({images}:{images:string[]}) => {
   const windowWidth = useWindowDimensions().width;
@@ -10,7 +9,7 @@ const ImageCarousel = ({images}:{images:string[]}) => {
     viewAreaCoveragePercentThreshold:50,
     minimumViewTime:300,
   }
-  const onFlatListUpdate= useCallback(({ viewableItems }) =>{
+  const onFlatListUpdate = useCallback(({ viewableItems}:any) =>{
      if (viewableItems.length > 0 ){
        setActiveIndex(viewableItems[0].index || 0)
   }
@@ -36,10 +35,12 @@ const ImageCarousel = ({images}:{images:string[]}) => {
        
       />
       <View style={styles.dotsview}>
-        {images.map((image, index) =>(
-         <View style={[styles.dot,{
-             backgroundColor: index === activeIndex ? "#c9c9c9" : "#ededed"
-         }]} 
+        {
+          images.map((image, index) =>(
+          <View style={[styles.dot,{
+              backgroundColor: index === activeIndex ? "#000" : "#ededed"
+            }]} 
+            key={index}
         />
         ))}
       </View>
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     },
     image:{
         margin:10,
-        height:300,
+        height:250,
         resizeMode:"contain"
     },
     dotsview:{

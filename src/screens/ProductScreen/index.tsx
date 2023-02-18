@@ -7,6 +7,7 @@ import QuantitySelector from '../../components/QuantitySelector'
 import Button from '../../components/Button'
 
 import styles from './styles'
+
 const ProductScreen = () => {
   const [selectedOption, setSelectedOption] = useState(product.options[0] || null)
   const [quantity, setQuantity] = useState(1)
@@ -15,7 +16,7 @@ const ProductScreen = () => {
     <ScrollView style={styles.root}>
       <Text style={styles.title}>ProductScreen</Text>
 
-
+      <ImageCarousel images={product.images}/>
       <Picker
         selectedValue={selectedOption}
         onValueChange={(itemValue) => setSelectedOption(itemValue)}
@@ -24,8 +25,7 @@ const ProductScreen = () => {
             product.options.map((option) => (<Picker.Item label={option} value={option} key={option} />))
         }
     
-      </Picker>
-      <ImageCarousel images={product.images}/>
+      </Picker>      
 
       <Text style={styles.price}>
         From Kshs {product.price}

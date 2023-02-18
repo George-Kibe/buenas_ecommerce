@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     root:{
         padding:10,
         backgroundColor:"white",
+        marginBottom:20
     },
     title:{
         color:"black"
