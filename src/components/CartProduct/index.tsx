@@ -11,7 +11,7 @@ import styles from './styles'
 // }
 
 const CartProduct = ({cartItem}: any) => {
-  console.log(cartItem)
+  //console.log(cartItem)
   const {quantity, product} = cartItem;
   //console.warn(cartItem)
   const updateQuantity = () =>{}

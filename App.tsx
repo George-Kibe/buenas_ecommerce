@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import ProductScreen from './src/screens/ProductScreen';
 import ShoppingCartScreen from './src/screens/ShoppingCartScreen';
+import AddressScreen from './src/screens/AddressScreen';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 //continue from 52:04
@@ -19,7 +20,7 @@ const App = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ShoppingCartScreen/>
+      <AddressScreen/>
     </SafeAreaView>
   );
 }

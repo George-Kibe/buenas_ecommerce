@@ -3,20 +3,20 @@ import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
 import React,{ useState, useEffect, useRef } from 'react'
-import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
-import { useStripe } from '@stripe/stripe-react-native'
-import { Order, OrderProduct, CartProduct } from '../../models'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import {stripeCreatePaymentIntent} from '../../graphql/mutations'
+// import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
+// import { useStripe } from '@stripe/stripe-react-native'
+// import { Order, OrderProduct, CartProduct } from '../../models'
+// import { useNavigation, useRoute } from '@react-navigation/native'
+// import {stripeCreatePaymentIntent} from '../../graphql/mutations'
 
 import styles from './styles'
 
 const AddressScreen = () => {
-  const navigation = useNavigation()
-  const route = useRoute()
+//   const navigation = useNavigation()
+//   const route = useRoute()
   const countries = countryList.getData();
   const buttonRef = useRef()
-  const {initPaymentSheet, presentPaymentSheet} = useStripe()
+  //const {initPaymentSheet, presentPaymentSheet} = useStripe()
   
   const [country, setCountry] = useState(countries[0].name);
   const [fullname, setFullname] = useState("")
@@ -29,53 +29,53 @@ const AddressScreen = () => {
   const [city, setCity] = useState("")
   const [clientSecret, setClientSecret] = useState<string | null>(null)
 
-  const amount = Math.floor(route.params?.totalPrice*100 || 0);
+  //const amount = Math.floor(route.params?.totalPrice*100 || 0);
 
-  useEffect(() => {
-   fetchPaymentIntent();
-  }, [])
+//   useEffect(() => {
+//    fetchPaymentIntent();
+//   }, [])
 
-  useEffect(() => {
-    if(clientSecret){
-        initializePaymentSheet();
-        //Alert.alert("Payment Intention initialized!")
-    }
-  }, [clientSecret])
+//   useEffect(() => {
+//     if(clientSecret){
+//         initializePaymentSheet();
+//         //Alert.alert("Payment Intention initialized!")
+//     }
+//   }, [clientSecret])
   
   
-  const fetchPaymentIntent = async () =>{
-    const response = await API.graphql(
-        graphqlOperation(stripeCreatePaymentIntent, {amount})
-    )
-    setClientSecret(response.data.StripeCreatePaymentIntent.clientSecret);
-  } 
-  const initializePaymentSheet = async () =>{
-    if (!clientSecret){
-        return;
-    }
-    const {error} = await initPaymentSheet({
-        paymentIntentClientSecret: clientSecret,
-    })
-    if (error){
-        Alert.alert(error);
-    }
-    //console.warn("success!")
-  }
+//   const fetchPaymentIntent = async () =>{
+//     const response = await API.graphql(
+//         graphqlOperation(stripeCreatePaymentIntent, {amount})
+//     )
+//     setClientSecret(response.data.StripeCreatePaymentIntent.clientSecret);
+//   } 
+//   const initializePaymentSheet = async () =>{
+//     if (!clientSecret){
+//         return;
+//     }
+//     const {error} = await initPaymentSheet({
+//         paymentIntentClientSecret: clientSecret,
+//     })
+//     if (error){
+//         Alert.alert(error);
+//     }
+//     //console.warn("success!")
+//   }
 
-  const openPaymentSheet = async () =>{
-    if (!clientSecret){
-        return
-    }
-    console.warn(clientSecret)
-    const {error} = await presentPaymentSheet({clientSecret});
-    if (error){
-        Alert.alert(`Error Code: ${error.code}`, error.message)
-    }else{
-        saveOrder()
-        Alert.alert("Success", "Your order is now confirmed")
-        console.warn("Success!")
-    }
-  }
+//   const openPaymentSheet = async () =>{
+//     if (!clientSecret){
+//         return
+//     }
+//     console.warn(clientSecret)
+//     const {error} = await presentPaymentSheet({clientSecret});
+//     if (error){
+//         Alert.alert(`Error Code: ${error.code}`, error.message)
+//     }else{
+//         saveOrder()
+//         Alert.alert("Success", "Your order is now confirmed")
+//         console.warn("Success!")
+//     }
+//   }
 
   //validations
   const validateFullname =() =>{
@@ -98,39 +98,39 @@ const AddressScreen = () => {
         setPhoneNumberError("Phone Number is Invalid or not Allowed")
     }
   }
-  const saveOrder = async () =>{
-    const userData = await Auth.currentAuthenticatedUser();
-    const userSub = userData.attributes.sub
-    //create a new order
-    const newOrder = await DataStore.save(
-        new Order({
-            userSub:userSub,
-            //orderProduct:orderproducts,
-            fullname:fullname,
-            phoneNumber:phoneNumber,
-            country:country,
-            city:city,
-            address:address,
-        })
-    )
+//   const saveOrder = async () =>{
+//     const userData = await Auth.currentAuthenticatedUser();
+//     const userSub = userData.attributes.sub
+//     //create a new order
+//     const newOrder = await DataStore.save(
+//         new Order({
+//             userSub:userSub,
+//             //orderProduct:orderproducts,
+//             fullname:fullname,
+//             phoneNumber:phoneNumber,
+//             country:country,
+//             city:city,
+//             address:address,
+//         })
+//     )
     //fecth all cart items
-    const cartItems = await DataStore.query(CartProduct, cp =>
-        cp.userSub("eq", userSub)   
-        )
-    //console.log(cartItems)
-    //attach cart items to order
-    await Promise.all(
-        cartItems.map(cartItem => DataStore.save(new OrderProduct({
-            quantity: cartItem.quantity,
-            option: cartItem.option,
-            product: cartItem.product,
-            order: newOrder,
-        })))
-    )
-    await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+//     const cartItems = await DataStore.query(CartProduct, cp =>
+//         cp.userSub("eq", userSub)   
+//         )
+//     //console.log(cartItems)
+//     //attach cart items to order
+//     await Promise.all(
+//         cartItems.map(cartItem => DataStore.save(new OrderProduct({
+//             quantity: cartItem.quantity,
+//             option: cartItem.option,
+//             product: cartItem.product,
+//             order: newOrder,
+//         })))
+//     )
+//     await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
     
-    navigation.navigate("Home")
-  }
+//     navigation.navigate("Home")
+//   }
 
   const onCheckout = async () =>{
     //buttonRef.current.disabled = true;
@@ -138,7 +138,7 @@ const AddressScreen = () => {
         Alert.alert("Fix all field Errors before you can checkout!"); return;
     }
     //handle payments  and save order    
-    await openPaymentSheet();
+    //await openPaymentSheet();
     // buttonRef.current.disabled = false;
   }
 const testPress = () =>{
