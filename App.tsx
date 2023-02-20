@@ -1,9 +1,6 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
-import HomeScreen from './src/screens/HomeScreen';
-import ProductScreen from './src/screens/ProductScreen';
-import ShoppingCartScreen from './src/screens/ShoppingCartScreen';
-import AddressScreen from './src/screens/AddressScreen';
+import RootNavigator from './src/navigation';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 //continue from 52:04
@@ -15,13 +12,13 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <AddressScreen/>
-    </SafeAreaView>
+      <RootNavigator/>
+    </>
   );
 }
 

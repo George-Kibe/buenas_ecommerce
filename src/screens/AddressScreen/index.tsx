@@ -82,7 +82,7 @@ const AddressScreen = () => {
     if(!fullname){
         Alert.alert("Please fill in the Fullname Field"); return;
     }
-    if (fullname.length < 5){
+    if(fullname.length < 5){
         setFullnameError("Name is too Short"); return;
     }
   }
@@ -200,7 +200,6 @@ const testPress = () =>{
         </View>
         
         <Button text="Checkout" onPress={onCheckout} />
-        <Button text="Checkout" onPress={testPress} />
       </ScrollView>
     </KeyboardAvoidingView>    
   )
