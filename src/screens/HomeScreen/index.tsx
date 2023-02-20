@@ -1,18 +1,27 @@
 import { View, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Product from '../../components/Product'
 import dummyproducts from "../../assets/data/products"
 
-const HomeScreen = () => {
+
+const HomeScreen = ({searchValue, setSearchValue,route, navigation}:any) => {
+  //console.log(searchValue)
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    const results = dummyproducts?.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()));
+    setProducts(results);    
+  }, [searchValue])
+
   return (
     <View style={styles.page}>
-        {/* {products.map((product) =><Product product={product} key={product.id}/>)} */}
-        <FlatList
-            data={dummyproducts}
-            renderItem={({item}) => <Product product={item}/>}
-            keyExtractor={({id}) => id}
-            showsVerticalScrollIndicator={false}
-        />
+      {/* {products.map((product) =><Product product={product} key={product.id}/>)} */}
+      <FlatList
+        data={products? products:dummyproducts}
+        renderItem={({item}) => <Product product={item} />}
+        keyExtractor={({id}) => id}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   )
 }

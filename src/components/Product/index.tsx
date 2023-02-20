@@ -1,6 +1,8 @@
+import React from 'react'
 import { View, Text,Image, TouchableOpacity } from 'react-native'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
-import React from 'react'
+import { useNavigation } from '@react-navigation/native'
+
 import styles from './styles'
 
 interface ProductItemProps{
@@ -16,8 +18,9 @@ interface ProductItemProps{
 }
 const Product = ({product}:ProductItemProps) => {
   //console.log(product)
+  const navigation = useNavigation()
   const productPressed = () =>{
-    console.warn("Prodcut pressed")
+    navigation.navigate("Product Details", {id: product.id})
   }
   return (
     <TouchableOpacity onPress={productPressed} style={styles.root}>

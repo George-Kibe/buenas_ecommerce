@@ -1,15 +1,18 @@
-import { View, StyleSheet, FlatList , Text} from 'react-native'
+import { ScrollView, View, StyleSheet, FlatList , Text} from 'react-native'
 import React from 'react'
 import CartProduct from '../../components/CartProduct'
 import Button from '../../components/Button'
 import dummyproducts from "../../assets/data/cart"
 
-const ShoppingCartScreen = () => {
+const ShoppingCartScreen = ({navigation, route}:any) => {
     const totalPrice = dummyproducts.reduce(
         (summedPrice, cartproduct) =>
           summedPrice + cartproduct.product.price * cartproduct.quantity,
         0,
       );
+    const goToCheckout = () => {
+        navigation.navigate("Shipping Address", {totalPrice:totalPrice})
+    }
 
   return (
     <View style={styles.page}>
@@ -19,7 +22,7 @@ const ShoppingCartScreen = () => {
             </Text>
             <Button
                 text="Proceed to Checkout"
-                onPress={() => console.warn("Go to checkout!")}
+                onPress={goToCheckout}
                 customStyles={{
                     backgroundColor:"#f7e300",
                     borderColor:"#c7b702"
@@ -38,7 +41,8 @@ const ShoppingCartScreen = () => {
 }
 const styles = StyleSheet.create({
     page:{
-        padding:10
+        padding:10,
+        flex:1
     }
 })
     

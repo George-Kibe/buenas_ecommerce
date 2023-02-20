@@ -8,7 +8,11 @@ import Button from '../../components/Button'
 
 import styles from './styles'
 
-const ProductScreen = () => {
+const ProductScreen = ({route, navigation}:any) => {
+  // console.log("Route", route)
+  // console.log("Navigation", navigation)
+  const {id} = route.params;
+  console.log(id)
   const [selectedOption, setSelectedOption] = useState(product.options[0] || null)
   const [quantity, setQuantity] = useState(1)
   //console.warn(selectedOption)

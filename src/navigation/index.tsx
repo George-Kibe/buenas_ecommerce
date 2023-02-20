@@ -9,7 +9,7 @@ const NativeStack = createNativeStackNavigator()
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <NativeStack.Navigator>
+      <NativeStack.Navigator screenOptions={{headerShown:false}}>
         <NativeStack.Screen component={BottomTabNav} name="HomeNav" />
       </NativeStack.Navigator>
     </NavigationContainer>
