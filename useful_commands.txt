@@ -31,6 +31,8 @@ amplify add api
 amplify push
 amplify console #to open aws console admin panel to create test data
 
+GraphQL endpoint: https://gzmlgkkylba6vlmrokkbok7yya.appsync-api.eu-west-1.amazonaws.com/graphql
+GraphQL API KEY: da2-afmftrprjne7rnfmhpcn4yh73i
 
 ### STRIPE INTEGRATION FOR PAYMENTS
 npm install @stripe/stripe-react-native
