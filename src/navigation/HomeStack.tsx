@@ -15,7 +15,7 @@ interface HeaderComponentProps{
 const HeaderComponent = ({searchValue, setSearchValue}:HeaderComponentProps) =>{
   return (
     <SafeAreaView style={{backgroundColor:"#22e3dd"}}>
-      <View style={{ margin:10, padding:5,backgroundColor:"white",
+      <View style={{ margin:10, padding:5,backgroundColor:"white", borderRadius:20,
                     flexDirection:"row", alignItems:"center"}}>
         <Feather name="search" size={20} />
         <TextInput style={{height:40,marginLeft:5, fontSize:16}}
