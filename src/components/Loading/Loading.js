@@ -5,9 +5,9 @@ const Loading = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/loading.gif')}
+        source={require('../../assets/images/cart.gif')}
         // eslint-disable-next-line react-native/no-inline-styles
-        style={{width: 100, height: 100}}
+        style={{width: 100, height: 100, borderRadius: 30}}
       />
       <Text>Loading...</Text>
     </View>

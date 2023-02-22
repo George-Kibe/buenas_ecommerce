@@ -52,7 +52,7 @@ const HomeScreen = ({searchValue,route, navigation}:any) => {
 
         ):(
           <FlatList 
-            data={allProducts.length > 0 ? allProducts : dummyproducts}
+            data={allProducts}
             renderItem={({item})=> <ProductComponent product={item}/>}
             keyExtractor={({ id }) => id}
             showsVerticalScrollIndicator={false}

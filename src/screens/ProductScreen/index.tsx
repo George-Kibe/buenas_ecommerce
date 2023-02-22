@@ -5,20 +5,33 @@ import { Picker } from '@react-native-picker/picker'
 import ImageCarousel from '../../components/ImageCarousel'
 import QuantitySelector from '../../components/QuantitySelector'
 import Button from '../../components/Button'
-import { DataStore } from 'aws-amplify'
-import { Product } from '../../models'
+import { DataStore, Auth } from 'aws-amplify'
+import { CartProduct, Product } from '../../models'
 
 import styles from './styles'
 import Loading from '../../components/Loading/Loading'
-import products from '../../assets/data/products'
 
 const ProductScreen = ({route, navigation}:any) => {
   const {id} = route.params;
+  console.log(id)
   const [product, setProduct] = useState<Product | undefined>(undefined)
   const [selectedOption, setSelectedOption] = useState<string | null >(null)
  
   const [quantity, setQuantity] = useState(1)
   //console.warn(selectedOption)
+  const addToCart = async() => {
+    const userData = await Auth.currentAuthenticatedUser();
+    if(!product || !userData){return}
+    //console.log(userData)
+    const newCartProduct = new CartProduct({
+      userSub:userData.attributes.sub,
+      quantity,
+      option:selectedOption,
+      product
+    })
+    await DataStore.save(newCartProduct)
+    navigation.navigate("ShoppingCart")
+  }
   useEffect(() => {
     if(!id){return}
     DataStore.query(Product, id).then(setProduct)
@@ -60,7 +73,7 @@ const ProductScreen = ({route, navigation}:any) => {
       </Text>
       <Text style={styles.description}>{product.description}</Text>
       <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
-      <Button text={"Add to Cart"} onPress={() =>console.warn("Add to cart")} 
+      <Button text={"Add to Cart"} onPress={addToCart} 
         customStyles={{backgroundColor:"#e3c905"}}
       />
       <Button text={"Buy Now"} onPress={() =>console.warn("Buy Now")} />
