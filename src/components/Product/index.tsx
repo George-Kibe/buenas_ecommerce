@@ -18,7 +18,6 @@ interface ProductItemProps{
   }
 }
 const Product = ({product}:ProductItemProps) => {
-  console.log(product)
   const navigation = useNavigation()
   const productPressed = () =>{
     navigation.navigate("Product Details", {id: product.id})
