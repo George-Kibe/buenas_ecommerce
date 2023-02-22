@@ -11,13 +11,14 @@ interface ProductItemProps{
     title:string;
     image?:string;
     avgRating:number;
+    availableNumber?:number,
     ratings:number;
     price:number;
     oldPrice?:number;
   }
 }
 const Product = ({product}:ProductItemProps) => {
-  //console.log(product)
+  console.log(product)
   const navigation = useNavigation()
   const productPressed = () =>{
     navigation.navigate("Product Details", {id: product.id})
@@ -42,8 +43,13 @@ const Product = ({product}:ProductItemProps) => {
                 <Text> {product.ratings}</Text>
             </View>
             <Text style={styles.price}>
-                From Kshs {product.price}
-                <Text style={styles.oldPrice}> Kshs 999</Text>
+                From Kshs {product.price.toFixed(2)}
+                {
+                  product.oldPrice && (
+                    <Text style={styles.oldPrice}>{product.oldPrice?.toFixed(2)}</Text>
+                  )
+                }
+                
             </Text>
         </View>
     </TouchableOpacity>
