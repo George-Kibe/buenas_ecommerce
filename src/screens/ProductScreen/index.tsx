@@ -13,7 +13,7 @@ import Loading from '../../components/Loading/Loading'
 
 const ProductScreen = ({route, navigation}:any) => {
   const {id} = route.params;
-  console.log(id)
+  //console.log(id)
   const [product, setProduct] = useState<Product | undefined>(undefined)
   const [selectedOption, setSelectedOption] = useState<string | null >(null)
  
@@ -27,7 +27,7 @@ const ProductScreen = ({route, navigation}:any) => {
       userSub:userData.attributes.sub,
       quantity,
       option:selectedOption,
-      product
+      product:product
     })
     await DataStore.save(newCartProduct)
     navigation.navigate("ShoppingCart")

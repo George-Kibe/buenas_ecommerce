@@ -35,7 +35,7 @@ const HomeScreen = ({searchValue,route, navigation}:any) => {
     const searchresults = allProducts?.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()));
     setSearchProducts(searchresults); 
   }, [searchValue])
-  console.log("All Products:",allProducts)
+  //console.log("All Products:",allProducts)
   return (
     <View style={styles.page}>
       {
@@ -49,7 +49,6 @@ const HomeScreen = ({searchValue,route, navigation}:any) => {
             keyExtractor={({ id }) => id}
             showsVerticalScrollIndicator={false}
           /> 
-
         ):(
           <FlatList 
             data={allProducts}
