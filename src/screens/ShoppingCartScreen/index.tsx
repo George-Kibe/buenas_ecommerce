@@ -11,39 +11,69 @@ import Loading from '../../components/Loading/Loading'
 
 const ShoppingCartScreen = ({navigation, route}:any) => {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([])
+  const [loading, setLoading] = useState(false)
 
   const fetchCartProducts = async () => {
+    setLoading(true)
     const userData = await Auth.currentAuthenticatedUser();
     const userSub = userData.attributes.sub;
 
     const response = await API.graphql(graphqlOperation(listCartProducts, {
       filter: {
-        product:{ ne: null }
+        userSub:{ eq: userSub }
       },
       include: {
         product: true,
       },
     }));
     
-    const items = response.data.listCartProducts.items
-    console.log("Type of:",typeof items);
-    console.log(items)
-    const products = Object.entries(items);
-    setCartProducts(products)
-
+    const cartproducts = response.data.listCartProducts.items
+    setCartProducts(cartproducts)
+    setLoading(false)
   };
 
   useEffect(() => {
     fetchCartProducts();
   }, []);
 
+  useEffect(() => {
+    const subscription = DataStore.observe(CartProduct).subscribe(msg =>
+      fetchCartProducts(),
+    );
+    return subscription.unsubscribe;
+  }, []);
   
-  const totalPrice = 4546
-  // const totalPrice = cartProducts.reduce(
-  //     (summedPrice, cartproduct) =>
-  //       summedPrice + cartproduct.product.price * cartproduct.quantity,
-  //     0,
-  //   );
+  useEffect(() => {
+    const subscriptions = cartProducts.map(cp =>
+      DataStore.observe(CartProduct, cp.id).subscribe(msg => {
+        if (msg.opType === 'UPDATE') {
+          setCartProducts(curCartProducts =>
+            curCartProducts.map(cp => {
+              if (cp.id !== msg.element.id) {
+                console.log('differnt id');
+                return cp;
+              }
+              return {
+                ...cp,
+                ...msg.element,
+              };
+            }),
+          );
+        }
+      }),
+    );
+
+    return () => {
+      subscriptions.forEach(sub => sub.unsubscribe());
+    };
+  }, [cartProducts]);
+  
+  //const totalPrice = 4546
+  const totalPrice = cartProducts.reduce(
+      (summedPrice, cartproduct) =>
+        summedPrice + cartproduct.product.price * cartproduct.quantity,
+      0,
+    );
   const goToCheckout = () => {
       navigation.navigate("Shipping Address", {totalPrice:totalPrice})
   }
@@ -51,8 +81,31 @@ const ShoppingCartScreen = ({navigation, route}:any) => {
 
   console.log("Cart Products: ",cartProducts)
 
-  if (false) {
+  if (loading) {
     return <Loading/>
+  }
+  if (cartProducts.length < 1) {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+          display:'flex'
+        }}>
+        <View style={{flex:1}}><Loading/></View>
+        <View
+          style={{
+            marginTop: 0,
+            alignItems: 'center',
+            flex:1
+          }}>
+          <Text style={{fontSize: 20, marginHorizontal: 50,color:"red"}}>
+            Please Ensure You have added at least one Item to the cart...
+          </Text>
+        </View>
+      </View>
+    );
   }
   return (
     <View style={styles.page}>
@@ -70,12 +123,12 @@ const ShoppingCartScreen = ({navigation, route}:any) => {
             />
         </View>
         {/* {products.map((product) =><Product product={product} key={product.id}/>)} */}
-        {/* <FlatList
+        <FlatList
             data={cartProducts}
             renderItem={({item}) => <CartProductComponent cartItem={item}/>}
             keyExtractor={({id}) => id}
             showsVerticalScrollIndicator={false}
-        />  */}
+        />
     </View>
   )
 }
@@ -89,29 +142,3 @@ const styles = StyleSheet.create({
 
 export default ShoppingCartScreen;
 
-
-
-
-// if (cartProducts.length < 1) {
-//   return (
-//     <View
-//       style={{
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         height: '100%',
-//         display:'flex'
-//       }}>
-//       <View style={{flex:1}}><Loading/></View>
-//       <View
-//         style={{
-//           marginTop: 0,
-//           alignItems: 'center',
-//           flex:1
-//         }}>
-//         <Text style={{fontSize: 20, marginHorizontal: 50,color:"red"}}>
-//           Please Ensure You have added at least one Item to the cart...
-//         </Text>
-//       </View>
-//     </View>
-//   );
-// }

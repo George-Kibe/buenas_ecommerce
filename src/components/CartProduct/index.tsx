@@ -4,24 +4,25 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import QuantitySelector from '../QuantitySelector'
 import styles from './styles'
 
-// import {DataStore} from "aws-amplify"
-// import {CartProduct} from "../../models"
-// interface CartProductItemProps{
-//   cartItem:CartProduct;
-// }
+import {API, graphqlOperation, DataStore} from "aws-amplify"
+import {CartProduct} from "../../models"
+import { updateCartProduct } from '../../graphql/mutations'
+interface CartProductItemProps{
+  cartItem:CartProduct;
+}
 
-const CartProduct = ({cartItem}: any) => {
-  console.log(cartItem)
-  const {quantity, product} = cartItem;
-  //console.warn(cartItem)
-  const updateQuantity = () =>{}
-  // const updateQuantity = async (newQuantity:number) =>{
-  //   await DataStore.save(
-  //     CartProduct.copyOf(cartItem, updated =>{
-  //       updated.quantity = newQuantity;
-  //     })
-  //   )
-  // }
+const CartProductComponent = ({cartItem}: CartProductItemProps) => {
+  console.log("Cart Item here:",cartItem)
+  const {product, ...cartProduct} = cartItem;
+  
+  const updateQuantity = async (newQuantity:number) =>{
+    const original = await DataStore.query(CartProduct, cartProduct.id);
+    await DataStore.save(
+      CartProduct.copyOf(original, updated => {
+        updated.quantity = newQuantity
+      })
+    )
+  }
   
   return (
     <View style={styles.page} key={product.id}>
@@ -45,7 +46,7 @@ const CartProduct = ({cartItem}: any) => {
             {product.oldPrice && (<Text style={styles.oldPrice}> Kshs. {product.oldPrice.toFixed(2)}</Text>)}
           </Text>
           <View style={styles.quantityContainer}>
-           <QuantitySelector quantity={quantity} setQuantity={updateQuantity} />
+           <QuantitySelector quantity={cartItem.quantity} setQuantity={updateQuantity} />
           </View>
         </View>        
       </View>      
@@ -53,4 +54,4 @@ const CartProduct = ({cartItem}: any) => {
   )
 }
 
-export default CartProduct;
+export default CartProductComponent;
