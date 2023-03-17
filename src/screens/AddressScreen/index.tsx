@@ -3,20 +3,21 @@ import { Picker } from '@react-native-picker/picker'
 import countryList from "country-list"
 import Button from '../../components/Button'
 import React,{ useState, useEffect, useRef } from 'react'
-// import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
-// import { useStripe } from '@stripe/stripe-react-native'
-// import { Order, OrderProduct, CartProduct } from '../../models'
-// import { useNavigation, useRoute } from '@react-navigation/native'
+import { DataStore, Auth, API, graphqlOperation } from 'aws-amplify'
+import { listCartProducts,deleteCartProduct } from '../../graphql/queries'
+import { createOrderProduct } from '../../graphql/mutations'
+//import { useStripe } from '@stripe/stripe-react-native'
+import { Order, OrderProduct, CartProduct } from '../../models'
+import { useNavigation, useRoute } from '@react-navigation/native'
 // import {stripeCreatePaymentIntent} from '../../graphql/mutations'
 
 import styles from './styles'
 
-const AddressScreen = () => {
-//   const navigation = useNavigation()
-//   const route = useRoute()
+const AddressScreen = ({navigation, route}:any) => {
   const countries = countryList.getData();
   const buttonRef = useRef()
   //const {initPaymentSheet, presentPaymentSheet} = useStripe()
+  const [loading, setLoading] = useState(false)
   
   const [country, setCountry] = useState(countries[0].name);
   const [fullname, setFullname] = useState("")
@@ -29,7 +30,7 @@ const AddressScreen = () => {
   const [city, setCity] = useState("")
   const [clientSecret, setClientSecret] = useState<string | null>(null)
 
-  //const amount = Math.floor(route.params?.totalPrice*100 || 0);
+  const amount = Math.floor(route.params?.totalPrice*100 || 0);
 
 //   useEffect(() => {
 //    fetchPaymentIntent();
@@ -98,52 +99,59 @@ const AddressScreen = () => {
         setPhoneNumberError("Phone Number is Invalid or not Allowed")
     }
   }
-//   const saveOrder = async () =>{
-//     const userData = await Auth.currentAuthenticatedUser();
-//     const userSub = userData.attributes.sub
-//     //create a new order
-//     const newOrder = await DataStore.save(
-//         new Order({
-//             userSub:userSub,
-//             //orderProduct:orderproducts,
-//             fullname:fullname,
-//             phoneNumber:phoneNumber,
-//             country:country,
-//             city:city,
-//             address:address,
-//         })
-//     )
-    //fecth all cart items
-//     const cartItems = await DataStore.query(CartProduct, cp =>
-//         cp.userSub("eq", userSub)   
-//         )
-//     //console.log(cartItems)
-//     //attach cart items to order
-//     await Promise.all(
-//         cartItems.map(cartItem => DataStore.save(new OrderProduct({
-//             quantity: cartItem.quantity,
-//             option: cartItem.option,
-//             product: cartItem.product,
-//             order: newOrder,
-//         })))
-//     )
-//     await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+  const saveOrder = async () =>{
+    const userData = await Auth.currentAuthenticatedUser();
+    const userSub = userData.attributes.sub
+    //create a new order
+    const newOrder = await DataStore.save(
+        new Order({
+            userSub:userSub,
+            //orderProduct:orderproducts,
+            fullname:fullname,
+            phoneNumber:phoneNumber,
+            country:country,
+            city:city,
+            address:address,
+        })
+    )
+    //fetch all cart items
+    const response = await API.graphql(graphqlOperation(listCartProducts, {
+      filter: {
+        userSub:{ eq: userSub }
+      },
+    }));
+    const cartItems = response.data.listCartProducts.items
+    console.log("Cart Items:", cartItems)
+    //attach cart items to order
+     const orderResponse = await Promise.all(
+        cartItems.map(cartItem => API.graphql(graphqlOperation(createOrderProduct, {
+            quantity: cartItem.quantity,
+            option: cartItem.option,
+            orderProductProductId: cartItem.product.id,
+            order: newOrder
+        })))
+      )
+    console.log("Response from creating OrderProduct!",orderResponse)
+    await Promise.all(cartItems.map(cartItem => API.graphql(graphqlOperation(deleteCartProduct, { id: cartItem.id }))));
     
-//     navigation.navigate("Home")
-//   }
+    navigation.navigate("HomeScreen")
+    setLoading(false)
+  }
 
   const onCheckout = async () =>{
+    setLoading(true)
     //buttonRef.current.disabled = true;
     if (fullnameError || phoneNumberError || fullname.length < 2 || phoneNumber.length < 2){
+        setLoading(false)
         Alert.alert("Fix all field Errors before you can checkout!"); return;
     }
-    //handle payments  and save order    
+    //handle payments  and save order 
+    saveOrder();  
     //await openPaymentSheet();
     // buttonRef.current.disabled = false;
+    
   }
-const testPress = () =>{
-    Alert.alert("Its Working!")
-}
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS ==="ios" ? "padding" : "height"}
@@ -199,7 +207,7 @@ const testPress = () =>{
                         value={city} onChangeText={setCity}/>
         </View>
         
-        <Button text="Checkout" onPress={onCheckout} />
+        <Button text={loading? "Loading...":"Checkout"} onPress={onCheckout} />
       </ScrollView>
     </KeyboardAvoidingView>    
   )

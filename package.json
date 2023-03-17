@@ -16,6 +16,7 @@
     "@react-navigation/bottom-tabs": "^6.5.5",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
+    "@reduxjs/toolkit": "^1.9.3",
     "amazon-cognito-identity-js": "^6.1.2",
     "aws-amplify": "^5.0.15",
     "aws-amplify-react-native": "^7.0.2",
@@ -26,7 +27,9 @@
     "react-native-safe-area-context": "^4.5.0",
     "react-native-screens": "^3.20.0",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-toast-message": "^2.1.6",
+    "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

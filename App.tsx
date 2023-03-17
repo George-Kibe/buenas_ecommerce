@@ -5,6 +5,9 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import "core-js/features/symbol/async-iterator";
 import { Amplify } from 'aws-amplify';
 import {withAuthenticator} from 'aws-amplify-react-native';
+import Toast from 'react-native-toast-message';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 import awsconfig from './src/aws-exports';
 Amplify.configure(awsconfig);
@@ -13,16 +16,12 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    //backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     flex:1
   };
 
   return (
     <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
       <RootNavigator/>
     </View>
   );
