@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from 'react-native'
+import { View, StyleSheet, FlatList, Text } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import ProductComponent from '../../components/Product'
 import Loading from '../../components/Loading/Loading'
@@ -38,6 +38,10 @@ const HomeScreen = ({searchValue,route, navigation}:any) => {
   //console.log("All Products:",allProducts)
   return (
     <View style={styles.page}>
+      <View>
+        <Text>Categories</Text>
+        <Text>Men</Text>
+      </View>
       {
         loading && <Loading />
       }

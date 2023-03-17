@@ -21,9 +21,10 @@ const App = () => {
   };
 
   return (
-    <View style={backgroundStyle}>
+    <Provider store={store}>
       <RootNavigator/>
-    </View>
+      <Toast />
+    </Provider>
   );
 }
 
